@@ -24,7 +24,7 @@ public class HotelSystem {
         }
     }
 
-    public void test() {
+    public void test() { // 테스트
         Customer customer = new Customer("홍길동", "90/10/10", "010-1010-1010");
         rooms[0][2].setRoomState(Room.ROOM_STATE_RESERVED);
         rooms[0][2].setCustomer(customer);
