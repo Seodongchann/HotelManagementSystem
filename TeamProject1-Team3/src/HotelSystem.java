@@ -21,26 +21,7 @@ public class HotelSystem {
         rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
         rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
     }
-
-    public void test() { // 테스트
-        Customer customer = new Customer("홍길동", "90/10/10", "010-1010-1010");
-        rooms[0][2].setRoomState(Room.ROOM_STATE_RESERVED);
-        rooms[0][2].setCustomer(customer);
-        rooms[3][15].setRoomState(Room.ROOM_STATE_RESERVED);
-        rooms[3][15].setCustomer(customer);
-
-        rooms[1][7].setRoomState(Room.ROOM_STATE_RESERVED);
-        rooms[1][7].setCustomer(customer);
-
-        rooms[2][18].setRoomState(Room.ROOM_STATE_RESERVED);
-        rooms[2][18].setCustomer(customer);
-
-        rooms[2][7].setRoomState(Room.ROOM_STATE_OCCUPIED);
-        rooms[2][7].setCustomer(customer);
-        checkOut();
-        selectRoom();
-    }
-
+  
     public void mainRun() { // 프로그램 실행
         while (true) {
             printMainScreen();
