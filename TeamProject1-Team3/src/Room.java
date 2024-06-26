@@ -140,18 +140,16 @@ public class Room {
 		switch (roomType) {
 		case ROOM_TYPE_STANDARD1: 
 			return 1;
+		case ROOM_TYPE_DELUXE1: 
+		case ROOM_TYPE_DELUXE2:
+			return 2; 
 		case ROOM_TYPE_STANDARD2: 
 			return 3;
 		case ROOM_TYPE_SUPERIOR1: 
+		case ROOM_TYPE_EXECUTIVE1: 
 			return 4;
 		case ROOM_TYPE_SUPERIOR2: 
 			return 5;
-		case ROOM_TYPE_DELUXE1: 
-			return 2;
-		case ROOM_TYPE_DELUXE2: 
-			return 2;
-		case ROOM_TYPE_EXECUTIVE1: 
-			return 4;
 		case ROOM_TYPE_EXECUTIVE2: 
 			return 6;
 		case ROOM_TYPE_SUITEROOM: 
