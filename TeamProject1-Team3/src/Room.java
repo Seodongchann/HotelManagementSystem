@@ -1,9 +1,5 @@
 
 public class Room {
-//	public static final int BED_TYPE_DOUBLE = 0;
-//	public static final int BED_TYPE_SINGLE = 1;
-//	private int bedType; // 0 : 더블베드 1 : 싱글 베드
-
 	public static final int ROOM_STATE_CLOSED = 3;
 	public static final int ROOM_STATE_EMPTY = 0;
 	public static final int ROOM_STATE_RESERVED = 1;
@@ -29,7 +25,6 @@ public class Room {
 	public Room(int roomNum) { // 생성자
 		super();
 		this.roomNum = roomNum;
-//        bedType = roomNum % 2; // 0 : 더블베드 1 : 싱글 베드
 	}
 
 	public Room(int roomNum, int roomType) {
@@ -104,8 +99,6 @@ public class Room {
 		System.out.println(canUseExtraBed());
 		System.out.println(getCapacity());
 		System.out.println(getBedInfo());
-		
-		
 		
 		if (customer != null) { // 고객 출력
 			System.out.println("고객명 : " + customer.getName());
