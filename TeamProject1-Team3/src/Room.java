@@ -104,8 +104,8 @@ public class Room {
             System.out.println("-폐쇄된 객실");
         }
         // 엑스트라 배드 가용 여부, 수용 인원, 침대 타입 문자열 반환
-        System.out.println("침대 정보 : " + getBedInfo());
-        System.out.println("가능 인원 : " + getCapacity());
+        System.out.println(getBedInfo());
+        System.out.println("가능 인원 : " + getCapacity()+"인");
         if (canUseExtraBed()) {
             System.out.println("엑스트라 : 가능");
         } else {
@@ -199,23 +199,23 @@ public class Room {
     public String getBedInfo() {
         switch (roomType) { // 룸 타입
         case ROOM_TYPE_STANDARD1:
-            return "침대 : 싱글 1개";
+            return "침대 정보 : 싱글 1개";
         case ROOM_TYPE_STANDARD2:
-            return "침대 : 싱글 2개";
+            return "침대 정보 : 싱글 2개";
         case ROOM_TYPE_SUPERIOR1:
-            return "침대 : 더블 1개, 싱글 1개";
+            return "침대 정보 : 더블 1개, 싱글 1개";
         case ROOM_TYPE_SUPERIOR2:
-            return "침대 : 더블 2개";
+            return "침대 정보 : 더블 2개";
         case ROOM_TYPE_DELUXE1:
-            return "침대 : 더블 1개";
+            return "침대 정보 : 더블 1개";
         case ROOM_TYPE_DELUXE2:
-            return "침대 : 퀸 1개";
+            return "침대 정보 : 퀸 1개";
         case ROOM_TYPE_EXECUTIVE1:
-            return "침대 : 퀸 1개, 킹 1개";
+            return "침대 정보 : 퀸 1개, 킹 1개";
         case ROOM_TYPE_EXECUTIVE2:
-            return "침대 : 더블 2개, 퀸 1개";
+            return "침대 정보 : 더블 2개, 퀸 1개";
         case ROOM_TYPE_SUITEROOM:
-            return "침대 : 킹 4개";
+            return "침대 정보 : 킹 4개";
         }
         return null;
     }
