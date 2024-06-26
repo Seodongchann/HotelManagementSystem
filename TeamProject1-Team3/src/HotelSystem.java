@@ -181,6 +181,7 @@ public class HotelSystem {
             if (room.getRoomState() == Room.ROOM_STATE_EMPTY)
                 break;
             System.out.println("투숙할 수 없는 객실입니다.");
+            if (room.getRoomState() == Room.)
         }
 
         Customer customer = inputCustomer();
@@ -199,271 +200,271 @@ public class HotelSystem {
         }
     }
 
-    private void checkIn() { // 체크 인
-        Customer customer = inputCustomer();
+	private void checkIn() { // 체크 인
+		Customer customer = inputCustomer();
 
-        if (!hasReservedRoom(customer)) {
-            System.out.println("예약된 정보가 없습니다.");
-            return;
-        }
+		if (!hasReservedRoom(customer)) {
+			System.out.println("예약된 정보가 없습니다.");
+			return;
+		}
 
-        Room room = selectReservedRoom(customer);
+		Room room = selectReservedRoom(customer);
 
-        System.out.println("예약자 본인입니까? [Y/N]");
-        boolean isSame = true;
-        char checkInYesOrNo = inputYN();
-        switch (checkInYesOrNo) {
-        case 'Y':
-            break;
-        case 'N':
-            isSame = false;
-            customer = inputCustomer();
-            break;
-        }
+		System.out.println("예약자 본인입니까? [Y/N]");
+		boolean isSame = true;
+		char checkInYesOrNo = inputYN();
+		switch (checkInYesOrNo) {
+		case 'Y':
+			break;
+		case 'N':
+			isSame = false;
+			customer = inputCustomer();
+			break;
+		}
 
-        System.out.println("체크인 하시겠습니까? [Y/N]");
-        char checkInYesOrNo1 = inputYN();
+		System.out.println("체크인 하시겠습니까? [Y/N]");
+		char checkInYesOrNo1 = inputYN();
 
-        switch (checkInYesOrNo1) {
-        case 'Y':
-            if (!isSame)
-                room.setCustomer(customer);
-            room.setRoomState(Room.ROOM_STATE_OCCUPIED);
-            break;
-        case 'N':
-            System.out.println("변경을 취소하셨습니다.");
-            break;
-        }
-    }
+		switch (checkInYesOrNo1) {
+		case 'Y':
+			if (!isSame)
+				room.setCustomer(customer);
+			room.setRoomState(Room.ROOM_STATE_OCCUPIED);
+			break;
+		case 'N':
+			System.out.println("변경을 취소하셨습니다.");
+			break;
+		}
+	}
 
-    private void checkOut() { // 체크 아웃
-        Room room;
+	private void checkOut() { // 체크 아웃
+		Room room;
 
-        while (true) {
-            room = selectRoom();
-            if (room == null) { // 취소한 상황
-                System.out.println("변경을 취소하셨습니다.");
-                return;
-            }
-            if (room.getRoomState() == Room.ROOM_STATE_OCCUPIED)
-                break;
-            System.out.println("투숙중인 방이 아닙니다.");
-        }
-        System.out.println("체크 아웃 하시겠습니까? [Y/N]");
-        char inputYorN = inputYN();
-        switch (inputYorN) {
-        case 'Y':
-            room.setCustomer(null);
-            room.setRoomState(Room.ROOM_STATE_EMPTY);
-            System.out.println("체크 아웃 되었습니다.");
-            break;
-        case 'N':
-            System.out.println("변경을 취소하셨습니다.");
-            break;
-        }
-    }
+		while (true) {
+			room = selectRoom();
+			if (room == null) { // 취소한 상황
+				System.out.println("변경을 취소하셨습니다.");
+				return;
+			}
+			if (room.getRoomState() == Room.ROOM_STATE_OCCUPIED)
+				break;
+			System.out.println("투숙중인 방이 아닙니다.");
+		}
+		System.out.println("체크 아웃 하시겠습니까? [Y/N]");
+		char inputYorN = inputYN();
+		switch (inputYorN) {
+		case 'Y':
+			room.setCustomer(null);
+			room.setRoomState(Room.ROOM_STATE_EMPTY);
+			System.out.println("체크 아웃 되었습니다.");
+			break;
+		case 'N':
+			System.out.println("변경을 취소하셨습니다.");
+			break;
+		}
+	}
 
-    private void manageReservation() { // 예약 관리
-        System.out.println("[1] 예약하기 [2] 예약취소 [0] 뒤로가기");
-        int s = inputIntInRange(0, 2);
-        switch (s) {
-        case 1:
-            addReservation();
-            break;
-        case 2:
-            cancelReservation();
-            break;
-        case 0:
-            break;
-        }
-    }
+	private void manageReservation() { // 예약 관리
+		System.out.println("[1] 예약하기 [2] 예약취소 [0] 뒤로가기");
+		int s = inputIntInRange(0, 2);
+		switch (s) {
+		case 1:
+			addReservation();
+			break;
+		case 2:
+			cancelReservation();
+			break;
+		case 0:
+			break;
+		}
+	}
 
-    private void addReservation() {
-        Room room;
-        while (true) {
-            room = selectRoom();
-            if (room == null) { // 취소한 상황
-                System.out.println("변경을 취소하셨습니다.");
-                return;
-            }
-            if (room.getRoomState() == Room.ROOM_STATE_EMPTY) {
-                System.out.println("예약이 가능한 방입니다.");
-                break;
-            } else {
-                System.out.println("예약이 불가능합니다.");
-            }
-        }
+	private void addReservation() {
+		Room room;
+		while (true) {
+			room = selectRoom();
+			if (room == null) { // 취소한 상황
+				System.out.println("변경을 취소하셨습니다.");
+				return;
+			}
+			if (room.getRoomState() == Room.ROOM_STATE_EMPTY) {
+				System.out.println("예약이 가능한 방입니다.");
+				break;
+			} else {
+				System.out.println("예약이 불가능합니다.");
+			}
+		}
 
-        Customer customer = inputCustomer();
-        System.out.println("예약을 하시겠습니까? [Y/N]");
-        char input = inputYN();
-        switch (input) {
-        case 'Y':
-            room.setCustomer(customer);
-            room.setRoomState(Room.ROOM_STATE_RESERVED);
-            System.out.println("예약되었습니다.");
-            break;
-        case 'N':
-            System.out.println("변경을 취소하셨습니다.");
-            break;
-        }
-    }
+		Customer customer = inputCustomer();
+		System.out.println("예약을 하시겠습니까? [Y/N]");
+		char input = inputYN();
+		switch (input) {
+		case 'Y':
+			room.setCustomer(customer);
+			room.setRoomState(Room.ROOM_STATE_RESERVED);
+			System.out.println("예약되었습니다.");
+			break;
+		case 'N':
+			System.out.println("변경을 취소하셨습니다.");
+			break;
+		}
+	}
 
-    private void cancelReservation() { // 예약 취소
-        Customer customer = inputCustomer();
-        if (!hasReservedRoom(customer)) {
-            System.out.println("예약된 정보가 없습니다.");
-            return;
-        }
+	private void cancelReservation() { // 예약 취소
+		Customer customer = inputCustomer();
+		if (!hasReservedRoom(customer)) {
+			System.out.println("예약된 정보가 없습니다.");
+			return;
+		}
 
-        Room reservedRoom = selectReservedRoom(customer);
+		Room reservedRoom = selectReservedRoom(customer);
 
-        System.out.println("예약을 취소하시겠습니까? [Y/N]");
-        char input = inputYN();
-        switch (input) {
-        case 'Y':
-            reservedRoom.setCustomer(null);
-            reservedRoom.setRoomState(Room.ROOM_STATE_EMPTY);
-            System.out.println("예약이 취소되었습니다.");
-            break;
-        case 'N':
-            System.out.println("변경을 취소하셨습니다.");
-            break;
-        }
-    }
+		System.out.println("예약을 취소하시겠습니까? [Y/N]");
+		char input = inputYN();
+		switch (input) {
+		case 'Y':
+			reservedRoom.setCustomer(null);
+			reservedRoom.setRoomState(Room.ROOM_STATE_EMPTY);
+			System.out.println("예약이 취소되었습니다.");
+			break;
+		case 'N':
+			System.out.println("변경을 취소하셨습니다.");
+			break;
+		}
+	}
 
-    private Room[] getReservedRoom(Customer customer) { // 예약한 객실 목록 배열로 반환
-        List<Room> roomList = new ArrayList<>();
-        for (int i = 0; i < rooms.length; i++) {
-            for (int j = 0; j < rooms[i].length; j++) {
-                Room room = rooms[i][j];
-                if (room.getRoomState() == Room.ROOM_STATE_RESERVED) {
-                    if (room.getCustomer().equals(customer))
-                        roomList.add(room);
-                }
-            }
-        }
-        return roomList.toArray(new Room[0]);
-    }
+	private Room[] getReservedRoom(Customer customer) { // 예약한 객실 목록 배열로 반환
+		List<Room> roomList = new ArrayList<>();
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[i].length; j++) {
+				Room room = rooms[i][j];
+				if (room.getRoomState() == Room.ROOM_STATE_RESERVED) {
+					if (room.getCustomer().equals(customer))
+						roomList.add(room);
+				}
+			}
+		}
+		return roomList.toArray(new Room[0]);
+	}
 
-    private Room selectReservedRoom(Customer customer) { // 예약한 객실 중 선택해서 반환
-        Room[] reservedRooms = getReservedRoom(customer);
-        System.out.println("예약된 객실을 선택하시오.");
-        for (int i = 0; i < reservedRooms.length; i++) {
-            System.out.println("[" + (i + 1) + "] " + reservedRooms[i].getRoomNum() + "호");
-        }
-        int input = inputIntInRange(1, reservedRooms.length);
-        return reservedRooms[input - 1];
-    }
+	private Room selectReservedRoom(Customer customer) { // 예약한 객실 중 선택해서 반환
+		Room[] reservedRooms = getReservedRoom(customer);
+		System.out.println("예약된 객실을 선택하시오.");
+		for (int i = 0; i < reservedRooms.length; i++) {
+			System.out.println("[" + (i + 1) + "] " + reservedRooms[i].getRoomNum() + "호");
+		}
+		int input = inputIntInRange(1, reservedRooms.length);
+		return reservedRooms[input - 1];
+	}
 
-    private boolean hasReservedRoom(Customer customer) {
-        for (int i = 0; i < rooms.length; i++) {
-            for (int j = 0; j < rooms[i].length; j++) {
-                Room room = rooms[i][j];
-                if (room.getRoomState() == Room.ROOM_STATE_RESERVED) {
-                    if (room.getCustomer().equals(customer))
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
+	private boolean hasReservedRoom(Customer customer) {
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[i].length; j++) {
+				Room room = rooms[i][j];
+				if (room.getRoomState() == Room.ROOM_STATE_RESERVED) {
+					if (room.getCustomer().equals(customer))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
 
-    // 고객 입력 받아서 고객 생성하여 반환
-    private Customer inputCustomer() {
-        System.out.println("고객 정보를 입력합니다.");
-        System.out.println("이름을 입력하시오.");
-        String name = scanner.nextLine();
+	// 고객 입력 받아서 고객 생성하여 반환
+	private Customer inputCustomer() {
+		System.out.println("고객 정보를 입력합니다.");
+		System.out.println("이름을 입력하시오.");
+		String name = scanner.nextLine();
 
-        System.out.println("생년원일을 입력하시오");
-        String birth = scanner.nextLine();
+		System.out.println("생년원일을 입력하시오");
+		String birth = scanner.nextLine();
 
-        System.out.println("전화번호를 입력하시오.");
-        String phoneNum = scanner.nextLine();
+		System.out.println("전화번호를 입력하시오.");
+		String phoneNum = scanner.nextLine();
 
-        return new Customer(name, birth, phoneNum);
-    }
+		return new Customer(name, birth, phoneNum);
+	}
 
-    private int inputIntInRange(int start, int end) { // 범위 안에 있는 정수 입력 받기
-        int intInput;
-        while (true) {
-            intInput = inputStringToInt();
-            if (isInRange(intInput, start, end))
-                return intInput;
-            System.out.println("잘못된 입력 [다른 숫자]");
-        }
-    }
+	private int inputIntInRange(int start, int end) { // 범위 안에 있는 정수 입력 받기
+		int intInput;
+		while (true) {
+			intInput = inputStringToInt();
+			if (isInRange(intInput, start, end))
+				return intInput;
+			System.out.println("잘못된 입력 [다른 숫자]");
+		}
+	}
 
-    private int inputIntInSelect(int... selects) {
-        int intInput;
-        do {
-            intInput = inputStringToInt();
-            if (!isInSelect(intInput, selects))
-                System.out.println("잘못된 입력 [다른 숫자]");
-        } while (!isInSelect(intInput, selects));
-        return intInput;
-    }
+	private int inputIntInSelect(int... selects) {
+		int intInput;
+		do {
+			intInput = inputStringToInt();
+			if (!isInSelect(intInput, selects))
+				System.out.println("잘못된 입력 [다른 숫자]");
+		} while (!isInSelect(intInput, selects));
+		return intInput;
+	}
 
-    private int inputIntInRangeAndSelect(int start, int end, int... selects) {
-        int intInput;
-        do {
-            intInput = inputStringToInt();
-            if (!isInSelect(intInput, selects) && !isInRange(intInput, start, end))
-                System.out.println("잘못된 입력 [다른 숫자]");
-        } while (!isInSelect(intInput, selects) && !isInRange(intInput, start, end));
-        return intInput;
-    }
+	private int inputIntInRangeAndSelect(int start, int end, int... selects) {
+		int intInput;
+		do {
+			intInput = inputStringToInt();
+			if (!isInSelect(intInput, selects) && !isInRange(intInput, start, end))
+				System.out.println("잘못된 입력 [다른 숫자]");
+		} while (!isInSelect(intInput, selects) && !isInRange(intInput, start, end));
+		return intInput;
+	}
 
-    private boolean isInSelect(int intInput, int[] selects) {
-        for (int s : selects) {
-            if (s == intInput)
-                return true;
-        }
-        return false;
-    }
+	private boolean isInSelect(int intInput, int[] selects) {
+		for (int s : selects) {
+			if (s == intInput)
+				return true;
+		}
+		return false;
+	}
 
-    private int inputStringToInt() { // 문자열을 입력받고 정수로 바꾸기
-        String strInput = scanner.nextLine();
-        while (!isStringInt(strInput)) {
-            System.out.println("잘못된 입력 [정수 아님|공백 X]");
-            strInput = scanner.nextLine();
-        }
-        return Integer.parseInt(strInput);
-    }
+	private int inputStringToInt() { // 문자열을 입력받고 정수로 바꾸기
+		String strInput = scanner.nextLine();
+		while (!isStringInt(strInput)) {
+			System.out.println("잘못된 입력 [정수 아님|공백 X]");
+			strInput = scanner.nextLine();
+		}
+		return Integer.parseInt(strInput);
+	}
 
-    private boolean isInRange(int n, int start, int end) { // 범위 맞는지 확인
-        return start <= n && n <= end;
-    }
+	private boolean isInRange(int n, int start, int end) { // 범위 맞는지 확인
+		return start <= n && n <= end;
+	}
 
-    private boolean isStringInt(String str) { // 문자열이 정수인지 확인
-        if (str.length() == 0)
-            return false;
-        for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            if (i == 0) {
-                if ((c < '0' || '9' < c) && c != '-')
-                    return false;
-            } else {
-                if (c < '0' || '9' < c)
-                    return false;
-            }
-        }
-        return true;
-    }
+	private boolean isStringInt(String str) { // 문자열이 정수인지 확인
+		if (str.length() == 0)
+			return false;
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if (i == 0) {
+				if ((c < '0' || '9' < c) && c != '-')
+					return false;
+			} else {
+				if (c < '0' || '9' < c)
+					return false;
+			}
+		}
+		return true;
+	}
 
-    private char inputYN() { // Y/N을 받는 함수
-        while (true) {
-            String strInput = scanner.nextLine();
-            switch (strInput) {
-            case "y":
-            case "Y":
-                return 'Y';
-            case "n":
-            case "N":
-                return 'N';
-            default:
-                System.out.println("잘못된 입력 [다른 문자|공백 X]");
-            }
-        }
-    }
+	private char inputYN() { // Y/N을 받는 함수
+		while (true) {
+			String strInput = scanner.nextLine();
+			switch (strInput) {
+			case "y":
+			case "Y":
+				return 'Y';
+			case "n":
+			case "N":
+				return 'N';
+			default:
+				System.out.println("잘못된 입력 [다른 문자|공백 X]");
+			}
+		}
+	}
 }
