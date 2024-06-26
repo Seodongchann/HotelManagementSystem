@@ -1,10 +1,9 @@
 
-public class Room {
-
-	public static final int ROOM_STATE_CLOSED = 3;
+public class Room {  
 	public static final int ROOM_STATE_EMPTY = 0;
 	public static final int ROOM_STATE_RESERVED = 1;
 	public static final int ROOM_STATE_OCCUPIED = 2;
+	public static final int ROOM_STATE_CLOSED = 3;
 
 	public static final int ROOM_TYPE_STANDARD1 = 0; // 싱글1개/1명/엑스트라 불가 / 201-210
 	public static final int ROOM_TYPE_STANDARD2 = 1; // 싱글2개/3명/엑스트라 가능 / 211-20
