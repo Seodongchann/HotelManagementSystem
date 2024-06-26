@@ -376,7 +376,7 @@ public class HotelSystem {
         }
     }
 
-    private Room[] getRoomFromReservation(Customer reservationCustomer) { // 예약한 객실 목록 배열로 반환
+    private Room[] getRoomFromReservation(Customer reservationCustomer) { // 예약자로 예약한 객실 목록 배열로 반환
         List<Room> roomList = new ArrayList<>();
         for (int i = 0; i < rooms.length; i++) {
             for (int j = 0; j < rooms[i].length; j++) {
@@ -390,7 +390,7 @@ public class HotelSystem {
         return roomList.toArray(new Room[0]);
     }
 
-    private Room selectRoomFromReservation(Customer reservationCustomer) { // 예약한 객실 중 선택해서 반환
+    private Room selectRoomFromReservation(Customer reservationCustomer) { // 예약자로 예약한 객실 중 선택해서 반환
         Room[] reservedRooms = getRoomFromReservation(reservationCustomer);
         System.out.println("예약된 객실을 선택하시오.");
         for (int i = 0; i < reservedRooms.length; i++) {
@@ -400,7 +400,7 @@ public class HotelSystem {
         return reservedRooms[input - 1];
     }
 
-    private Room[] getRoomFromUser(Customer customer) { // 예약한 객실 목록 배열로 반환
+    private Room[] getRoomFromUser(Customer customer) { // 사용자로 예약한 객실 목록 배열로 반환
         List<Room> roomList = new ArrayList<>();
         for (int i = 0; i < rooms.length; i++) {
             for (int j = 0; j < rooms[i].length; j++) {
@@ -414,7 +414,7 @@ public class HotelSystem {
         return roomList.toArray(new Room[0]);
     }
 
-    private Room selectRoomFromUser(Customer customer) { // 예약한 객실 중 선택해서 반환
+    private Room selectRoomFromUser(Customer customer) { // 사용자로 예약한 객실 중 선택해서 반환
         Room[] reservedRooms = getRoomFromUser(customer);
         System.out.println("예약된 객실을 선택하시오.");
         for (int i = 0; i < reservedRooms.length; i++) {
