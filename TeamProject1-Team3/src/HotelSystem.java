@@ -110,7 +110,19 @@ public class HotelSystem {
 
     private void printFloorState(int floor) { // 층의 방 상황 확인
         for (int i = 0; i < rooms[floor - 2].length; i++) {
-            Room room = rooms[floor - 2][i];
+        	Room room = rooms[floor - 2][i];
+        	if (i == 0) {
+        		System.out.println(room.getGradeOfRoom() 
+        				+ "(" + room.getBedInfo() + ")");
+        	} else if (i == 10) {
+        		System.out.println(room.getGradeOfRoom() 
+        				+ "(" + room.getBedInfo() + ")");
+        	} 
+        	if (floor == 5 && i == 19) {
+        		System.out.println();
+        		System.out.println(room.getGradeOfRoom() 
+        				+ "(" + room.getBedInfo() + ")");
+        	}
             System.out.print(room.getRoomNum() + room.getRoomStateString());
             if ((i + 1) % 5 == 0)
                 System.out.println();

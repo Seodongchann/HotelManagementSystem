@@ -81,7 +81,7 @@ public class Room {
 	 * 객실의 상태를 출력하는 함수
 	 */
 	public void printState() {
-		System.out.println(roomNum + "호 " + getGradeOfRoom());
+		System.out.println(roomNum + "호 (" + getGradeOfRoom() + ")");
 		switch (roomState) { // 방 상황
 		case ROOM_STATE_EMPTY:
 			System.out.println("-빈 객실");
@@ -95,7 +95,6 @@ public class Room {
 		case ROOM_STATE_CLOSED:
 			System.out.println("-폐쇄된 객실");
 		}
-		// 엑스트라 배드 가용 여부, 수용 인원, 침대 타입 문자열 반환
 		System.out.println("침대 정보: " + getBedInfo());
 		System.out.println("가능 인원: " + getCapacity());
 		if (canUseExtraBed()) {
@@ -128,23 +127,23 @@ public class Room {
 	public String getGradeOfRoom() { // 객실 등급 문자열로 반환
 		switch (roomType) { // 룸 타입
 		case ROOM_TYPE_STANDARD1:
-			return "(스탠다드1)";
+			return "스탠다드1";
 		case ROOM_TYPE_STANDARD2:
-			return "(스탠다드2)";
+			return "스탠다드2";
 		case ROOM_TYPE_SUPERIOR1:
-			return "(슈페리어1)";
+			return "슈페리어1";
 		case ROOM_TYPE_SUPERIOR2:
-			return "(슈페리어2)";
+			return "슈페리어2";
 		case ROOM_TYPE_DELUXE1:
-			return "(디럭스1)";
+			return "디럭스1";
 		case ROOM_TYPE_DELUXE2:
-			return "(디럭스2)";
+			return "디럭스2";
 		case ROOM_TYPE_EXECUTIVE1:
-			return "(이그젝큐티브1)";
+			return "이그젝큐티브1";
 		case ROOM_TYPE_EXECUTIVE2:
-			return "(이그젝큐티브2)";
+			return "이그젝큐티브2";
 		case ROOM_TYPE_SUITEROOM:
-			return "(스위트)";
+			return "스위트";
 		}
 		return "";
 	}
