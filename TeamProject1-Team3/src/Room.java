@@ -6,11 +6,13 @@ public class Room {
     public static final int ROOM_STATE_OCCUPIED = 2;
     public static final int BED_TYPE_DOUBLE = 0;
     public static final int BED_TYPE_SINGLE = 1;
+    public static final int BED_TYPE_TWIN = 2;
     private int roomNum;
     private int bedType; // 0 : 더블베드 1 : 싱글 베드
     private int roomState; // 0 : 빈방 1 : 예약 2 : 투숙
     private Customer customer;
-
+    private int roomType;
+    
     public Room(int roomNum) { // 생성자
         super();
         this.roomNum = roomNum;
@@ -59,6 +61,7 @@ public class Room {
         case ROOM_STATE_CLOSED:
         	System.out.println("-폐쇄된 객실");
         }
+        
         switch (bedType) {  // 침대 종류
         case BED_TYPE_DOUBLE:
             System.out.println("침대 : 더블");
@@ -66,6 +69,8 @@ public class Room {
         case BED_TYPE_SINGLE:
             System.out.println("침대 : 싱글");
             break;
+        case BED_TYPE_TWIN:
+        	System.out.println("침대 : 트윈");
         }
         if (customer != null) { // 고객 출력
             System.out.println("고객명 : " + customer.getName());
