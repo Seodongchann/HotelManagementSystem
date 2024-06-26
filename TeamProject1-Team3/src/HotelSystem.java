@@ -15,12 +15,14 @@ public class HotelSystem {
         for (int i = 0; i < NUMBERS_OF_FLOORS; i++) {
             for (int j = 0; j < NUMBERS_OF_ROOMS; j++) {
                 int roomNum = (i + 2) * 100 + j + 1;
-                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성
-            }
+                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성            
+            }            
         }
+        rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
+        rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
     }
 
-    public void test() {
+    public void test() { // 테스트
         Customer customer = new Customer("홍길동", "90/10/10", "010-1010-1010");
         rooms[0][2].setRoomState(Room.ROOM_STATE_RESERVED);
         rooms[0][2].setCustomer(customer);
@@ -128,7 +130,7 @@ public class HotelSystem {
     private void printFloorState(int floor) { // 층의 방 상황 확인
         for (int i = 0; i < rooms[floor - 2].length; i++) {
             Room room = rooms[floor - 2][i];
-            System.out.print(room.getRoomNum() + room.getRoomStateString() + "\t");
+            System.out.print(room.getRoomNum() + room.getRoomStateString());
             if ((i + 1) % 5 == 0)
                 System.out.println();
         }
