@@ -3,202 +3,174 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HotelSystem {
-	private final int NUMBERS_OF_FLOORS = 4;
-	private final int NUMBERS_OF_ROOMS = 20;
-	private Scanner scanner = new Scanner(System.in);
-	private Room rooms[][] = new Room[NUMBERS_OF_FLOORS][NUMBERS_OF_ROOMS];
-	private String adminPassword;
+    private final int NUMBERS_OF_FLOORS = 4;
+    private final int NUMBERS_OF_ROOMS = 20;
+    private Scanner scanner = new Scanner(System.in);
+    private Room rooms[][] = new Room[NUMBERS_OF_FLOORS][NUMBERS_OF_ROOMS];
+    private String adminPassword;
 
-	public HotelSystem(String adminPassword) { // 생성자
-		super();
-		this.adminPassword = adminPassword;
-		for (int i = 0; i < NUMBERS_OF_FLOORS; i++) {
-			for (int j = 0; j < NUMBERS_OF_ROOMS; j++) {
-				int roomNum = (i + 2) * 100 + j + 1;
-				rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성
-			}
-		}
+    public HotelSystem(String adminPassword) { // 생성자
+        super();
+        this.adminPassword = adminPassword;
+        for (int i = 0; i < NUMBERS_OF_FLOORS; i++) {
+            for (int j = 0; j < NUMBERS_OF_ROOMS; j++) {
+                int roomNum = (i + 2) * 100 + j + 1;
+                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성            
+            }            
+        }
+        rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
+        rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
+    }
+  
+    public void mainRun() { // 프로그램 실행
+        while (true) {
+            printMainScreen();
+            int input = inputIntInRange(0, 2);
+            switch (input) {
+            case 0:
+                System.out.println("프로그램을 종료합니다.");
+                scanner.close();
+                return;
+            case 1:
+                if (checkAdmin())
+                    managerRun();
+                break;
+            case 2:
+                cleanerRun();
+                break;
+            }
+        }
+    }
 
-		rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
-		rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
-	}
+    private void managerRun() { // 관리자 실행
+        while (true) {
+            printManageScreen();
+            int input = inputIntInRange(0, 3);
+            switch (input) {
+            case 0:
+                System.out.println("로그아웃 완료");
+                return;
+            case 1:
+                checkRoomState();
+                break;
+            case 2:
+                chageRoomState();
+                break;
+            case 3:
+                manageReservation();
+                break;
+            }
+        }
+    }
 
-	public void test() { // 테스트
-		Customer customer = new Customer("홍길동", "90/10/10", "010-1010-1010");
-		rooms[0][2].setRoomState(Room.ROOM_STATE_RESERVED);
-		rooms[0][2].setCustomer(customer);
-		rooms[3][15].setRoomState(Room.ROOM_STATE_RESERVED);
-		rooms[3][15].setCustomer(customer);
+    private void cleanerRun() {
+        while (true) {
+            printCleanerScreen();
+            int input = inputIntInRange(0, 1);
+            switch (input) {
+            case 0:
+                System.out.println("로그아웃 완료");
+                return;
+            case 1:
+                checkFloorState();
+                break;
+            }
+        }
+    }
 
-		rooms[1][7].setRoomState(Room.ROOM_STATE_RESERVED);
-		rooms[1][7].setCustomer(customer);
+    private void printMainScreen() { // 메인 화면 출력
+        System.out.println("사용자 번호를 입력하시오.");
+        System.out.println("[1] 관리자\n[2] 청소부\n[0] 프로그램 종료");
+    }
 
-		rooms[2][18].setRoomState(Room.ROOM_STATE_RESERVED);
-		rooms[2][18].setCustomer(customer);
+    private void printManageScreen() { // 관리자 화면 출력
+        System.out.println("메뉴 번호를 입력하시오.");
+        System.out.println("[1] 객실 상태 확인\n[2] 객실 상태 변경\n[3] 예약 관리\n[0] 로그아웃");
+    }
 
-		rooms[2][7].setRoomState(Room.ROOM_STATE_OCCUPIED);
-		rooms[2][7].setCustomer(customer);
-		checkOut();
-		selectRoom();
-	}
+    private void printCleanerScreen() { // 청소부 화면 출력
+        System.out.println("메뉴 번호를 입력하시오.");
+        System.out.println("[1] 객실 상태 확인\n[0] 로그아웃");
+    }
 
-	public void mainRun() { // 프로그램 실행
-		while (true) {
-			printMainScreen();
-			int input = inputIntInRange(0, 2);
-			switch (input) {
-			case 0:
-				System.out.println("프로그램을 종료합니다.");
-				scanner.close();
-				return;
-			case 1:
-				if (checkAdmin())
-					managerRun();
-				break;
-			case 2:
-				cleanerRun();
-				break;
-			}
-		}
-	}
+    private boolean checkAdmin() { // 비밀번호 확인
+        System.out.println("비밀번호를 입력하시오.");
+        if (adminPassword.equals(scanner.nextLine())) {
+            return true;
+        } else {
+            System.out.println("비밀번호가 틀렸습니다.");
+            return false;
+        }
+    }
 
-	private void managerRun() { // 관리자 실행
-		while (true) {
-			printManageScreen();
-			int input = inputIntInRange(0, 3);
-			switch (input) {
-			case 0:
-				System.out.println("로그아웃 완료");
-				return;
-			case 1:
-				checkRoomState();
-				break;
-			case 2:
-				chageRoomState();
-				break;
-			case 3:
-				manageReservation();
-				break;
-			}
-		}
-	}
+    private void checkFloorState() { // 청소부가 층의 상태 확인
+        int floor = selectFloor();
+        printFloorState(floor);
+    }
 
-	private void cleanerRun() {
-		while (true) {
-			printCleanerScreen();
-			int input = inputIntInRange(0, 1);
-			switch (input) {
-			case 0:
-				System.out.println("로그아웃 완료");
-				return;
-			case 1:
-				checkFloorState();
-				break;
-			}
-		}
-	}
+    private void printFloorState(int floor) { // 층의 방 상황 확인
+        for (int i = 0; i < rooms[floor - 2].length; i++) {
+            Room room = rooms[floor - 2][i];
+            System.out.print(room.getRoomNum() + room.getRoomStateString());
+            if ((i + 1) % 5 == 0)
+                System.out.println();
+        }
+    }
 
-	private void printMainScreen() { // 메인 화면 출력
-		System.out.println("사용자 번호를 입력하시오.");
-		System.out.println("[1] 관리자\n[2] 청소부\n[0] 프로그램 종료");
-	}
+    private int selectFloor() { // 층 선택해서 인트로 반환 (배열+2 반환)
+        System.out.println("층을 선택하시오. [2~" + (1 + NUMBERS_OF_FLOORS) + "]");
+        return inputIntInRange(2, 1 + NUMBERS_OF_FLOORS);
+    }
 
-	private void printManageScreen() { // 관리자 화면 출력
-		System.out.println("메뉴 번호를 입력하시오.");
-		System.out.println("[1] 객실 상태 확인\n[2] 객실 상태 변경\n[3] 예약 관리\n[0] 로그아웃");
-	}
+    private Room selectRoom() { // 객실을 선택해서 Room 반환
+        int input = 0;
+        int floor = 0;
+        do {
+            floor = selectFloor();
+            System.out.println("객실을 선택하시오. [1~20] 층 선택 [0] 취소 [99]");
+            printFloorState(floor);
+            input = inputIntInRangeAndSelect(0, 20, 99);
+            if (input == 99) {
+                return null;
+            }
+        } while (input == 0);
 
-	private void printCleanerScreen() { // 청소부 화면 출력
-		System.out.println("메뉴 번호를 입력하시오.");
-		System.out.println("[1] 객실 상태 확인\n[0] 로그아웃");
-	}
+        return rooms[floor - 2][input - 1];
+    }
 
-	private boolean checkAdmin() { // 비밀번호 확인
-		System.out.println("비밀번호를 입력하시오.");
-		if (adminPassword.equals(scanner.nextLine())) {
-			return true;
-		} else {
-			System.out.println("비밀번호가 틀렸습니다.");
-			return false;
-		}
-	}
+    private void checkRoomState() { // 관리자가 객실 상태 확인
+        Room room = selectRoom();
+        if (room == null) { // 취소한 상황
+            System.out.println("취소하셨습니다.");
+            return;
+        }
+        room.printState();
+    }
 
-	private void checkFloorState() { // 청소부가 층의 상태 확인
-		int floor = selectFloor();
-		printFloorState(floor);
-	}
+    private void chageRoomState() { // 객실 상태 변경
+        printChangeRoomStateScreen();
+        int changeRoomStateNum = inputIntInRange(0, 3);
+        switch (changeRoomStateNum) {
+        case 0:
+            break;
+        case 1:
+            walkIn();
+            break;
+        case 2:
+            checkIn();
+            break;
+        case 3:
+            checkOut();
+            break;
+        }
+    }
 
-	private void printFloorState(int floor) { // 층의 방 상황 확인
-		for (int i = 0; i < rooms[floor - 2].length; i++) {
-			Room room = rooms[floor - 2][i];
-			System.out.print(room.getRoomNum() + room.getRoomStateString());
-			if ((i + 1) % 5 == 0)
-				System.out.println();
+    private void printChangeRoomStateScreen() { // 객실 상태 변경 화면 출력
+        System.out.println("원하는 메뉴 번호를 입력하시오.");
+        System.out.println("[1] 워크 인\n[2] 체크 인\n[3] 체크 아웃\n[0] 뒤로가기");
+    }
 
-		}
-	}
-
-	private int selectFloor() { // 층 선택해서 인트로 반환 (배열+2 반환)
-		System.out.println("층을 선택하시오. [2~" + (1 + NUMBERS_OF_FLOORS) + "]");
-		return inputIntInRange(2, 1 + NUMBERS_OF_FLOORS);
-	}
-
-	private Room selectRoom() { // 객실을 선택해서 Room 반환
-		int input = 0;
-		int floor = 0;
-		do {
-			floor = selectFloor();
-			System.out.println("객실을 선택하시오. [1~20] 층 선택 [0] 취소 [99]");
-			printFloorState(floor);
-			input = inputIntInRangeAndSelect(0, 20, 99);
-			if (input == 99) {
-				return null;
-			}
-			if (input == 4 || input == 14) {
-				System.out.println("폐쇄된 객실입니다.");
-				return null;
-			}
-			if (floor == 4) {
-				System.out.println("트윈 베드 룸");
-			}
-		} while (input == 0);
-
-		return rooms[floor - 2][input - 1];
-	}
-
-	private void checkRoomState() { // 관리자가 객실 상태 확인
-		Room room = selectRoom();
-		if (room == null) { // 취소한 상황
-			System.out.println("취소하셨습니다.");
-			return;
-		}
-		room.printState();
-	}
-
-	private void chageRoomState() { // 객실 상태 변경
-		printChangeRoomStateScreen();
-		int changeRoomStateNum = inputIntInRange(0, 3);
-		switch (changeRoomStateNum) {
-		case 0:
-			break;
-		case 1:
-			walkIn();
-			break;
-		case 2:
-			checkIn();
-			break;
-		case 3:
-			checkOut();
-			break;
-		}
-	}
-
-	private void printChangeRoomStateScreen() { // 객실 상태 변경 화면 출력
-		System.out.println("원하는 메뉴 번호를 입력하시오.");
-		System.out.println("[1] 워크 인\n[2] 체크 인\n[3] 체크 아웃\n[0] 뒤로가기");
-	}
-
-	private void walkIn() { // 워크 인
+    private void walkIn() { // 워크 인
         Room room;
         while (true) {
             room = selectRoom();
