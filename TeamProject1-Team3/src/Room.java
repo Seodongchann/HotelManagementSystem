@@ -1,15 +1,16 @@
 
 public class Room {
-	public static final int ROOM_STATE_CLOSED = 3;
     public static final int ROOM_STATE_EMPTY = 0;
     public static final int ROOM_STATE_RESERVED = 1;
     public static final int ROOM_STATE_OCCUPIED = 2;
+    public static final int ROOM_STATE_CLOSED = 3;
     public static final int BED_TYPE_DOUBLE = 0;
     public static final int BED_TYPE_SINGLE = 1;
     private int roomNum;
     private int bedType; // 0 : 더블베드 1 : 싱글 베드
     private int roomState; // 0 : 빈방 1 : 예약 2 : 투숙
     private Customer customer;
+    private Customer reservationCustomer;
 
     public Room(int roomNum) { // 생성자
         super();
@@ -41,12 +42,20 @@ public class Room {
         this.customer = customer;
     }
 
+    public Customer getReservationCustomer() {
+        return reservationCustomer;
+    }
+
+    public void setReservationCustomer(Customer reservationCustomer) {
+        this.reservationCustomer = reservationCustomer;
+    }
+
     /**
      * 객실의 상태를 출력하는 함수
      */
     public void printState() {
         System.out.println(roomNum + "호");
-        switch (roomState) {    // 방 상황
+        switch (roomState) { // 방 상황
         case ROOM_STATE_EMPTY:
             System.out.println("-빈 객실");
             break;
@@ -57,9 +66,9 @@ public class Room {
             System.out.println("-투숙중인 객실");
             break;
         case ROOM_STATE_CLOSED:
-        	System.out.println("-폐쇄된 객실");
+            System.out.println("-폐쇄된 객실");
         }
-        switch (bedType) {  // 침대 종류
+        switch (bedType) { // 침대 종류
         case BED_TYPE_DOUBLE:
             System.out.println("침대 : 더블");
             break;
@@ -83,7 +92,7 @@ public class Room {
         case ROOM_STATE_OCCUPIED:
             return "(투숙)";
         case ROOM_STATE_CLOSED:
-        	return"(폐쇄)";
+            return "(폐쇄)";
         }
         return "";
     }
