@@ -181,7 +181,6 @@ public class HotelSystem {
             if (room.getRoomState() == Room.ROOM_STATE_EMPTY)
                 break;
             System.out.println("투숙할 수 없는 객실입니다.");
-            if (room.getRoomState() == Room.)
         }
 
         Customer customer = inputCustomer();
