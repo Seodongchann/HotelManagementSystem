@@ -1,5 +1,6 @@
 
 public class Room {
+	
 	public static final int ROOM_STATE_CLOSED = 3;
 	public static final int ROOM_STATE_EMPTY = 0;
 	public static final int ROOM_STATE_RESERVED = 1;
