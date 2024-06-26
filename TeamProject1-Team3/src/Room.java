@@ -42,14 +42,26 @@ public class Room {
 
     public void printState() { // 객실 상태 출력
         System.out.println(roomNum + "호");
-        if (roomState == ROOM_STATE_EMPTY) {
+        switch (roomState) {
+        case ROOM_STATE_EMPTY:
             System.out.println("-빈 객실");
-        } else {
-            if (roomState == ROOM_STATE_RESERVED) {
-                System.out.println("-예약된 객실");
-            } else if (roomState == ROOM_STATE_OCCUPIED) {
-                System.out.println("-투숙중인 객실");
-            }
+            break;
+        case ROOM_STATE_RESERVED:
+            System.out.println("-예약된 객실");
+            break;
+        case ROOM_STATE_OCCUPIED:
+            System.out.println("-투숙중인 객실");
+            break;
+        }
+        switch (bedType) {
+        case BED_TYPE_DOUBLE:
+            System.out.println("침대 : 더블");
+            break;
+        case BED_TYPE_SINGLE:
+            System.out.println("침대 : 싱글");
+            break;
+        }
+        if (customer != null) {
             System.out.println("고객명 : " + customer.getName());
             System.out.println("전화번호 : " + customer.getPhoneNum());
             System.out.println("생년월일 : " + customer.getBirth());
