@@ -94,6 +94,7 @@ public class Room {
 			break;
 		case ROOM_STATE_CLOSED:
 			System.out.println("-폐쇄된 객실");
+			break;
 		}
 		// 엑스트라 배드 가용 여부, 수용 인원, 침대 타입 문자열 반환
 		System.out.println("침대 정보: " + getBedInfo());
