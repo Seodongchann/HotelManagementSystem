@@ -199,6 +199,7 @@ public class HotelSystem {
         }
     }
 
+
     private void checkIn() { // 체크 인
         Customer reservedCustomer = inputCustomer();
 
@@ -482,4 +483,5 @@ public class HotelSystem {
             }
         }
     }
+
 }
