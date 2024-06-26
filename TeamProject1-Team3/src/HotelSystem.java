@@ -15,13 +15,13 @@ public class HotelSystem {
         for (int i = 0; i < NUMBERS_OF_FLOORS; i++) {
             for (int j = 0; j < NUMBERS_OF_ROOMS; j++) {
                 int roomNum = (i + 2) * 100 + j + 1;
-                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성            
-            }            
+                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성
+            }
         }
         rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
         rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
     }
-  
+
     public void mainRun() { // 프로그램 실행
         while (true) {
             printMainScreen();
@@ -199,25 +199,27 @@ public class HotelSystem {
         }
     }
 
-    private void checkIn() { // 체크 인
-        Customer customer = inputCustomer();
 
-        if (!hasReservedRoom(customer)) {
+    private void checkIn() { // 체크 인
+        Customer reservedCustomer = inputCustomer();
+
+        if (!hasReservedRoom(reservedCustomer)) {
             System.out.println("예약된 정보가 없습니다.");
             return;
         }
 
-        Room room = selectReservedRoom(customer);
+        Room room = selectReservedRoom(reservedCustomer);
 
         System.out.println("예약자 본인입니까? [Y/N]");
         boolean isSame = true;
         char checkInYesOrNo = inputYN();
+        Customer realCustomer = null;
         switch (checkInYesOrNo) {
         case 'Y':
             break;
         case 'N':
             isSame = false;
-            customer = inputCustomer();
+            realCustomer = inputCustomer();
             break;
         }
 
@@ -227,7 +229,7 @@ public class HotelSystem {
         switch (checkInYesOrNo1) {
         case 'Y':
             if (!isSame)
-                room.setCustomer(customer);
+                room.setCustomer(realCustomer);
             room.setRoomState(Room.ROOM_STATE_OCCUPIED);
             break;
         case 'N':
@@ -371,16 +373,31 @@ public class HotelSystem {
 
     // 고객 입력 받아서 고객 생성하여 반환
     private Customer inputCustomer() {
+        String name;
+        String birth;
+        String phoneNum;
         System.out.println("고객 정보를 입력합니다.");
-        System.out.println("이름을 입력하시오.");
-        String name = scanner.nextLine();
-
-        System.out.println("생년원일을 입력하시오");
-        String birth = scanner.nextLine();
-
-        System.out.println("전화번호를 입력하시오.");
-        String phoneNum = scanner.nextLine();
-
+        while (true) {
+            System.out.println("이름을 입력하시오.");
+            name = scanner.nextLine();
+            if (name.length() != 0)
+                break;
+            System.out.println("정보를 입력해주세요.");
+        }
+        while (true) {
+            System.out.println("생년원일을 입력하시오");
+            birth = scanner.nextLine();
+            if (birth.length() != 0)
+                break;
+            System.out.println("정보를 입력해주세요.");
+        }
+        while (true) {
+            System.out.println("전화번호를 입력하시오.");
+            phoneNum = scanner.nextLine();
+            if (phoneNum.length() != 0)
+                break;
+            System.out.println("정보를 입력해주세요.");
+        }
         return new Customer(name, birth, phoneNum);
     }
 
@@ -466,4 +483,5 @@ public class HotelSystem {
             }
         }
     }
+
 }
