@@ -15,36 +15,36 @@ public class HotelSystem {
         for (int i = 0; i < NUMBERS_OF_FLOORS; i++) {
             for (int j = 0; j < NUMBERS_OF_ROOMS; j++) {
                 int roomNum = (i + 2) * 100 + j + 1;
-                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성            
+                rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성
             }
-            
+
         }
-        
-        for(int i=0;i<10;i++) {
-        	rooms[0][i].setRoomType(Room.ROOM_TYPE_STANDARD1);
+
+        for (int i = 0; i < 10; i++) {
+            rooms[0][i].setRoomType(Room.ROOM_TYPE_STANDARD1);
         }
-        for(int i=10;i<20;i++) {
-        	rooms[0][i].setRoomType(Room.ROOM_TYPE_STANDARD2);
+        for (int i = 10; i < 20; i++) {
+            rooms[0][i].setRoomType(Room.ROOM_TYPE_STANDARD2);
         }
-        for(int i=0;i<10;i++) {
-        	rooms[1][i].setRoomType(Room.ROOM_TYPE_DELUXE1);
+        for (int i = 0; i < 10; i++) {
+            rooms[1][i].setRoomType(Room.ROOM_TYPE_DELUXE1);
         }
-        for(int i=10;i<20;i++) {
-        	rooms[1][i].setRoomType(Room.ROOM_TYPE_DELUXE2);
-        } 
-        for(int i=0;i<10;i++) {
-        	rooms[2][i].setRoomType(Room.ROOM_TYPE_SUPERIOR1);
+        for (int i = 10; i < 20; i++) {
+            rooms[1][i].setRoomType(Room.ROOM_TYPE_DELUXE2);
         }
-        for(int i=10;i<20;i++) {
-        	rooms[2][i].setRoomType(Room.ROOM_TYPE_SUPERIOR2);
+        for (int i = 0; i < 10; i++) {
+            rooms[2][i].setRoomType(Room.ROOM_TYPE_SUPERIOR1);
         }
-        for(int i=0;i<10;i++) {
-        	rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE1);
+        for (int i = 10; i < 20; i++) {
+            rooms[2][i].setRoomType(Room.ROOM_TYPE_SUPERIOR2);
         }
-        for(int i=10;i<19;i++) {
-        	rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE2);
+        for (int i = 0; i < 10; i++) {
+            rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE1);
         }
-        
+        for (int i = 10; i < 19; i++) {
+            rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE2);
+        }
+
         rooms[3][19].setRoomType(Room.ROOM_TYPE_SUITEROOM);
         rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
         rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
@@ -136,13 +136,21 @@ public class HotelSystem {
         printFloorState(floor);
     }
 
-    private void printFloorState(int floor) { // 층의 방 상황 확인
+    private void printFloorState(int floor) {
+        int prevRoomType = -1;
+        System.out.println("A동 "+floor+"층");
         for (int i = 0; i < rooms[floor - 2].length; i++) {
             Room room = rooms[floor - 2][i];
+            int roomType = room.getRoomType();
+            if(roomType!=prevRoomType) {
+                if(i!=0)
+                    System.out.println();
+                System.out.println(room.getGradeOfRoom() + " (" + room.getBedInfo() + ")");
+            }
             System.out.print(room.getRoomNum() + room.getRoomStateString());
-            if ((i + 1) % 5 == 0)
-                System.out.println();
+            prevRoomType=roomType;
         }
+        System.out.println();
     }
 
     private int selectFloor() { // 층 선택해서 인트로 반환 (배열+2 반환)
