@@ -12,7 +12,7 @@ public class HotelSystem {
     private boolean isManagerRunning;
     private boolean isCleanerRunning;
 
-    public HotelSystem(int adminNum) { // 생성자
+    public HotelSystem(int adminNum) {
         super();
         this.adminNum = adminNum;
         isRunning = true;
