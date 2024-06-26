@@ -140,7 +140,7 @@ public class HotelSystem {
         printFloorState(floor);
     }
 
-    private void printFloorState(int floor) { // 층의 상태 출력
+    private void printFloorState(int floor) { // 층의 상태 출력 
         int prevRoomType = -1;
         System.out.println("A동 " + floor + "층");
         for (int i = 0; i < rooms[floor - 2].length; i++) {
