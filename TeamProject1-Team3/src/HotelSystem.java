@@ -17,7 +17,6 @@ public class HotelSystem {
                 int roomNum = (i + 2) * 100 + j + 1;
                 rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성
             }
-
         }
 
         for (int i = 0; i < 10; i++) {
@@ -133,29 +132,33 @@ public class HotelSystem {
 
     private void checkFloorState() { // 청소부가 층의 상태 확인
         int floor = selectFloor();
+        if (floor == 0) {
+            System.out.println("취소하셨습니다.");
+            return;
+        }
         printFloorState(floor);
     }
 
     private void printFloorState(int floor) {
         int prevRoomType = -1;
-        System.out.println("A동 "+floor+"층");
+        System.out.println("A동 " + floor + "층");
         for (int i = 0; i < rooms[floor - 2].length; i++) {
             Room room = rooms[floor - 2][i];
             int roomType = room.getRoomType();
-            if(roomType!=prevRoomType) {
-                if(i!=0)
+            if (roomType != prevRoomType) {
+                if (i != 0)
                     System.out.println();
                 System.out.println(room.getGradeOfRoom() + " (" + room.getBedInfo() + ")");
             }
             System.out.print(room.getRoomNum() + room.getRoomStateString());
-            prevRoomType=roomType;
+            prevRoomType = roomType;
         }
         System.out.println();
     }
 
     private int selectFloor() { // 층 선택해서 인트로 반환 (배열+2 반환)
-        System.out.println("층을 선택하시오. [2~" + (1 + NUMBERS_OF_FLOORS) + "]");
-        return inputIntInRange(2, 1 + NUMBERS_OF_FLOORS);
+        System.out.println("층을 선택하시오. [2~" + (1 + NUMBERS_OF_FLOORS) + "] 취소 [0]");
+        return inputIntInRangeAndSelect(2, 1 + NUMBERS_OF_FLOORS, 0);
     }
 
     private Room selectRoom() { // 객실을 선택해서 Room 반환
@@ -163,15 +166,17 @@ public class HotelSystem {
         int floor = 0;
         do {
             floor = selectFloor();
-            System.out.println("객실을 선택하시오. [1~20] 층 선택 [0] 취소 [99]");
+            if (floor == 0)
+                return null;
+            System.out.println("객실을 선택하시오. [" + floor + "01~" + floor + "20] 층 선택 [1] 취소 [0]");
             printFloorState(floor);
-            input = inputIntInRangeAndSelect(0, 20, 99);
-            if (input == 99) {
+            input = inputIntInRangeAndSelect(floor * 100 + 1, floor * 100 + 20, 0, 1);
+            if (input == 0) {
                 return null;
             }
-        } while (input == 0);
+        } while (input == 1);
 
-        return rooms[floor - 2][input - 1];
+        return rooms[floor - 2][input - floor * 100 - 1];
     }
 
     private void checkRoomState() { // 관리자가 객실 상태 확인
@@ -235,21 +240,37 @@ public class HotelSystem {
         }
     }
 
-    private void checkIn() { // 체크 인
-        Customer customer = inputCustomer();
 
-        if (!hasRoomFromUser(customer)) {
+    private void checkIn() { // 체크 인
+        Customer reservedCustomer = inputCustomer();
+
+        if (!hasReservedRoom(reservedCustomer)) {
             System.out.println("예약된 정보가 없습니다.");
             return;
         }
 
-        Room room = selectRoomFromUser(customer);
+        Room room = selectReservedRoom(reservedCustomer);
+
+        System.out.println("예약자 본인입니까? [Y/N]");
+        boolean isSame = true;
+        char checkInYesOrNo = inputYN();
+        Customer realCustomer = null;
+        switch (checkInYesOrNo) {
+        case 'Y':
+            break;
+        case 'N':
+            isSame = false;
+            realCustomer = inputCustomer();
+            break;
+        }
 
         System.out.println("체크인 하시겠습니까? [Y/N]");
         char checkInYesOrNo1 = inputYN();
 
         switch (checkInYesOrNo1) {
         case 'Y':
+            if (!isSame)
+                room.setCustomer(realCustomer);
             room.setRoomState(Room.ROOM_STATE_OCCUPIED);
             break;
         case 'N':
@@ -316,25 +337,11 @@ public class HotelSystem {
             }
         }
 
-        System.out.println("-예약자 정보 입력");
-        Customer reservationCustomer = inputCustomer();
-        System.out.println("사용자 본인입니까? [Y/N]");
-        Customer customer = null;
+        Customer customer = inputCustomer();
+        System.out.println("예약을 하시겠습니까? [Y/N]");
         char input = inputYN();
         switch (input) {
         case 'Y':
-            customer = reservationCustomer;
-            break;
-        case 'N':
-            System.out.println("-사용자 정보 입력");
-            customer = inputCustomer();
-            break;
-        }
-        System.out.println("예약을 하시겠습니까? [Y/N]");
-        input = inputYN();
-        switch (input) {
-        case 'Y':
-            room.setReservationCustomer(reservationCustomer);
             room.setCustomer(customer);
             room.setRoomState(Room.ROOM_STATE_RESERVED);
             System.out.println("예약되었습니다.");
@@ -346,20 +353,19 @@ public class HotelSystem {
     }
 
     private void cancelReservation() { // 예약 취소
-        Customer reservationCustomer = inputCustomer();
-        if (!hasRoomFromReservation(reservationCustomer)) {
+        Customer customer = inputCustomer();
+        if (!hasReservedRoom(customer)) {
             System.out.println("예약된 정보가 없습니다.");
             return;
         }
 
-        Room reservedRoom = selectRoomFromReservation(reservationCustomer);
+        Room reservedRoom = selectReservedRoom(customer);
 
         System.out.println("예약을 취소하시겠습니까? [Y/N]");
         char input = inputYN();
         switch (input) {
         case 'Y':
             reservedRoom.setCustomer(null);
-            reservedRoom.setReservationCustomer(null);
             reservedRoom.setRoomState(Room.ROOM_STATE_EMPTY);
             System.out.println("예약이 취소되었습니다.");
             break;
@@ -369,31 +375,7 @@ public class HotelSystem {
         }
     }
 
-    private Room[] getRoomFromReservation(Customer reservationCustomer) { // 예약한 객실 목록 배열로 반환
-        List<Room> roomList = new ArrayList<>();
-        for (int i = 0; i < rooms.length; i++) {
-            for (int j = 0; j < rooms[i].length; j++) {
-                Room room = rooms[i][j];
-                if (room.getRoomState() == Room.ROOM_STATE_RESERVED) {
-                    if (room.getReservationCustomer().equals(reservationCustomer))
-                        roomList.add(room);
-                }
-            }
-        }
-        return roomList.toArray(new Room[0]);
-    }
-
-    private Room selectRoomFromReservation(Customer reservationCustomer) { // 예약한 객실 중 선택해서 반환
-        Room[] reservedRooms = getRoomFromReservation(reservationCustomer);
-        System.out.println("예약된 객실을 선택하시오.");
-        for (int i = 0; i < reservedRooms.length; i++) {
-            System.out.println("[" + (i + 1) + "] " + reservedRooms[i].getRoomNum() + "호");
-        }
-        int input = inputIntInRange(1, reservedRooms.length);
-        return reservedRooms[input - 1];
-    }
-
-    private Room[] getRoomFromUser(Customer customer) { // 예약한 객실 목록 배열로 반환
+    private Room[] getReservedRoom(Customer customer) { // 예약한 객실 목록 배열로 반환
         List<Room> roomList = new ArrayList<>();
         for (int i = 0; i < rooms.length; i++) {
             for (int j = 0; j < rooms[i].length; j++) {
@@ -407,8 +389,8 @@ public class HotelSystem {
         return roomList.toArray(new Room[0]);
     }
 
-    private Room selectRoomFromUser(Customer customer) { // 예약한 객실 중 선택해서 반환
-        Room[] reservedRooms = getRoomFromUser(customer);
+    private Room selectReservedRoom(Customer customer) { // 예약한 객실 중 선택해서 반환
+        Room[] reservedRooms = getReservedRoom(customer);
         System.out.println("예약된 객실을 선택하시오.");
         for (int i = 0; i < reservedRooms.length; i++) {
             System.out.println("[" + (i + 1) + "] " + reservedRooms[i].getRoomNum() + "호");
@@ -417,20 +399,7 @@ public class HotelSystem {
         return reservedRooms[input - 1];
     }
 
-    private boolean hasRoomFromReservation(Customer reservationCustomer) {
-        for (int i = 0; i < rooms.length; i++) {
-            for (int j = 0; j < rooms[i].length; j++) {
-                Room room = rooms[i][j];
-                if (room.getRoomState() == Room.ROOM_STATE_RESERVED) {
-                    if (room.getReservationCustomer().equals(reservationCustomer))
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean hasRoomFromUser(Customer customer) {
+    private boolean hasReservedRoom(Customer customer) {
         for (int i = 0; i < rooms.length; i++) {
             for (int j = 0; j < rooms[i].length; j++) {
                 Room room = rooms[i][j];
