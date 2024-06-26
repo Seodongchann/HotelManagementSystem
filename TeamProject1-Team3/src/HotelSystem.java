@@ -16,8 +16,36 @@ public class HotelSystem {
             for (int j = 0; j < NUMBERS_OF_ROOMS; j++) {
                 int roomNum = (i + 2) * 100 + j + 1;
                 rooms[i][j] = new Room(roomNum); // 모든 방 방번호로 생성            
-            }            
+            }
+            
         }
+        
+        for(int i=0;i<10;i++) {
+        	rooms[0][i].setRoomState(Room.ROOM_TYPE_STANDARD1);
+        }
+        for(int i=10;i<20;i++) {
+        	rooms[0][i].setRoomState(Room.ROOM_TYPE_STANDARD2);
+        }
+        for(int i=0;i<10;i++) {
+        	rooms[1][i].setRoomState(Room.ROOM_TYPE_DELUXE1);
+        }
+        for(int i=10;i<20;i++) {
+        	rooms[1][i].setRoomState(Room.ROOM_TYPE_DELUXE2);
+        }
+        for(int i=0;i<10;i++) {
+        	rooms[2][i].setRoomState(Room.ROOM_TYPE_SUPERIOR1);
+        }
+        for(int i=10;i<20;i++) {
+        	rooms[2][i].setRoomState(Room.ROOM_TYPE_SUPERIOR2);
+        }
+        for(int i=0;i<10;i++) {
+        	rooms[3][i].setRoomState(Room.ROOM_TYPE_EXECUTIVE1);
+        }
+        for(int i=10;i<19;i++) {
+        	rooms[3][i].setRoomState(Room.ROOM_TYPE_EXECUTIVE2);
+        }
+        
+        rooms[3][19].setRoomState(Room.ROOM_TYPE_SUITEROOM);
         rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
         rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
     }
@@ -181,7 +209,6 @@ public class HotelSystem {
             if (room.getRoomState() == Room.ROOM_STATE_EMPTY)
                 break;
             System.out.println("투숙할 수 없는 객실입니다.");
-            if (room.getRoomState() == Room.)
         }
 
         Customer customer = inputCustomer();
