@@ -256,6 +256,7 @@ public class HotelSystem {
 
         switch (checkInYesOrNo1) {
         case 'Y':
+            room.setReservationCustomer(null);
             room.setRoomState(Room.ROOM_STATE_OCCUPIED);
             break;
         case 'N':
