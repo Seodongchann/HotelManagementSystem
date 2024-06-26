@@ -10,10 +10,10 @@ public class Room {
     private int roomState; // 0 : 빈방 1 : 예약 2 : 투숙
     private Customer customer;
 
-    public Room(int roomNum) {
+    public Room(int roomNum) { // 생성자
         super();
         this.roomNum = roomNum;
-        bedType = roomNum % 2;// 0 : 더블베드 1 : 싱글 베드
+        bedType = roomNum % 2; // 0 : 더블베드 1 : 싱글 베드
     }
 
     public int getRoomNum() {
@@ -40,9 +40,12 @@ public class Room {
         this.customer = customer;
     }
 
-    public void printState() { // 객실 상태 출력
+    /**
+     * 객실의 상태를 출력하는 함수
+     */
+    public void printState() {
         System.out.println(roomNum + "호");
-        switch (roomState) {
+        switch (roomState) {    // 방 상황
         case ROOM_STATE_EMPTY:
             System.out.println("-빈 객실");
             break;
@@ -53,7 +56,7 @@ public class Room {
             System.out.println("-투숙중인 객실");
             break;
         }
-        switch (bedType) {
+        switch (bedType) {  // 침대 종류
         case BED_TYPE_DOUBLE:
             System.out.println("침대 : 더블");
             break;
@@ -61,7 +64,7 @@ public class Room {
             System.out.println("침대 : 싱글");
             break;
         }
-        if (customer != null) {
+        if (customer != null) { // 고객 출력
             System.out.println("고객명 : " + customer.getName());
             System.out.println("전화번호 : " + customer.getPhoneNum());
             System.out.println("생년월일 : " + customer.getBirth());
@@ -70,8 +73,8 @@ public class Room {
 
     public String getRoomStateString() { // 객실 상태 문자열로 반환
         switch (roomState) {
-//        case ROOM_EMPTY:
-//            return "(빈방)";
+        case ROOM_STATE_EMPTY:
+            return "";
         case ROOM_STATE_RESERVED:
             return "(예약)";
         case ROOM_STATE_OCCUPIED:
