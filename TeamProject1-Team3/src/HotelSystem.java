@@ -21,31 +21,31 @@ public class HotelSystem {
         }
         
         for(int i=0;i<10;i++) {
-        	rooms[0][i].setRoomState(Room.ROOM_TYPE_STANDARD1);
+        	rooms[0][i].setRoomType(Room.ROOM_TYPE_STANDARD1);
         }
         for(int i=10;i<20;i++) {
-        	rooms[0][i].setRoomState(Room.ROOM_TYPE_STANDARD2);
+        	rooms[0][i].setRoomType(Room.ROOM_TYPE_STANDARD2);
         }
         for(int i=0;i<10;i++) {
-        	rooms[1][i].setRoomState(Room.ROOM_TYPE_DELUXE1);
+        	rooms[1][i].setRoomType(Room.ROOM_TYPE_DELUXE1);
         }
         for(int i=10;i<20;i++) {
-        	rooms[1][i].setRoomState(Room.ROOM_TYPE_DELUXE2);
-        }
+        	rooms[1][i].setRoomType(Room.ROOM_TYPE_DELUXE2);
+        } 
         for(int i=0;i<10;i++) {
-        	rooms[2][i].setRoomState(Room.ROOM_TYPE_SUPERIOR1);
+        	rooms[2][i].setRoomType(Room.ROOM_TYPE_SUPERIOR1);
         }
         for(int i=10;i<20;i++) {
-        	rooms[2][i].setRoomState(Room.ROOM_TYPE_SUPERIOR2);
+        	rooms[2][i].setRoomType(Room.ROOM_TYPE_SUPERIOR2);
         }
         for(int i=0;i<10;i++) {
-        	rooms[3][i].setRoomState(Room.ROOM_TYPE_EXECUTIVE1);
+        	rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE1);
         }
         for(int i=10;i<19;i++) {
-        	rooms[3][i].setRoomState(Room.ROOM_TYPE_EXECUTIVE2);
+        	rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE2);
         }
         
-        rooms[3][19].setRoomState(Room.ROOM_TYPE_SUITEROOM);
+        rooms[3][19].setRoomType(Room.ROOM_TYPE_SUITEROOM);
         rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
         rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
     }
