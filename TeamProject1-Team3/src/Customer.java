@@ -23,7 +23,7 @@ public class Customer {
     }
 
     public boolean equals(Object obj) { // 고객 비교
-        if (!(obj instanceof Customer))
+        if (!(obj instanceof Customer)) // obj 인스턴스의 클래스가 customer가 아니면 return false
             return false;
         Customer customer = (Customer) obj;
         if (!customer.name.equals(name))
