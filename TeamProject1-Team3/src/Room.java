@@ -1,5 +1,6 @@
 
 public class Room {
+	public static final int ROOM_STATE_CLOSED = 3;
     public static final int ROOM_STATE_EMPTY = 0;
     public static final int ROOM_STATE_RESERVED = 1;
     public static final int ROOM_STATE_OCCUPIED = 2;
@@ -55,6 +56,8 @@ public class Room {
         case ROOM_STATE_OCCUPIED:
             System.out.println("-투숙중인 객실");
             break;
+        case ROOM_STATE_CLOSED:
+        	System.out.println("-폐쇄된 객실");
         }
         switch (bedType) {  // 침대 종류
         case BED_TYPE_DOUBLE:
@@ -74,11 +77,13 @@ public class Room {
     public String getRoomStateString() { // 객실 상태 문자열로 반환
         switch (roomState) {
         case ROOM_STATE_EMPTY:
-            return "";
+            return "     ";
         case ROOM_STATE_RESERVED:
             return "(예약)";
         case ROOM_STATE_OCCUPIED:
             return "(투숙)";
+        case ROOM_STATE_CLOSED:
+        	return"(폐쇄)";
         }
         return "";
     }
