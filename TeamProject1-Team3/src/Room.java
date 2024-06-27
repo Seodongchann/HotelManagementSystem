@@ -17,7 +17,7 @@ public class Room {
 														// 501-10
 	public static final int ROOM_TYPE_EXECUTIVE2 = 7; // 더블 2개 킹 1개/6명/엑스트라 가능
 														// 511-19
-	public static final int ROOM_TYPE_SUITEROOM = 8; // 킹 4개/8명/엑스트라 불가 520
+	public static final int ROOM_TYPE_SUITE = 8; // 킹 4개/8명/엑스트라 불가 520
 
 	private int roomNum;
 	private int roomState; // 0 : 빈방 1 : 예약 2 : 투숙
@@ -145,6 +145,30 @@ public class Room {
 		return "";
 	}
 
+	public int getRoomFee() {
+		switch (roomType) {
+			case ROOM_TYPE_STANDARD1 :
+				return 30000;
+			case ROOM_TYPE_STANDARD2 :
+				return 40000;
+			case ROOM_TYPE_SUPERIOR1 :
+				return 60000;
+			case ROOM_TYPE_SUPERIOR2 :
+				return 70000;
+			case ROOM_TYPE_DELUXE1 :
+				return 100000;
+			case ROOM_TYPE_DELUXE2 :
+				return 110000;
+			case ROOM_TYPE_EXECUTIVE1 :
+				return 140000;
+			case ROOM_TYPE_EXECUTIVE2 :
+				return 150000;
+			case ROOM_TYPE_SUITE :
+				return 2_000_000;
+		}
+		return -1;
+	}
+
 	public String getGradeOfRoom() { // 객실 등급 문자열로 반환
 		switch (roomType) { // 룸 타입
 			case ROOM_TYPE_STANDARD1 :
@@ -163,32 +187,32 @@ public class Room {
 				return "(이그젝큐티브1)";
 			case ROOM_TYPE_EXECUTIVE2 :
 				return "(이그젝큐티브2)";
-			case ROOM_TYPE_SUITEROOM :
+			case ROOM_TYPE_SUITE :
 				return "(스위트)";
 		}
 		return "";
 	}
 
-	public static String getGradeOfRoom(int roomType) { // 객실 등급 문자열로 반환
+	public static String getGradeOfRoomInfo(int roomType) { // 객실 등급 문자열로 반환
 		switch (roomType) { // 룸 타입
 			case ROOM_TYPE_STANDARD1 :
-				return "(스탠다드1)";
+				return "[스탠다드1]";
 			case ROOM_TYPE_STANDARD2 :
-				return "(스탠다드2)";
+				return "[스탠다드2]";
 			case ROOM_TYPE_SUPERIOR1 :
-				return "(슈페리어1)";
+				return "[슈페리어1]";
 			case ROOM_TYPE_SUPERIOR2 :
-				return "(슈페리어2)";
+				return "[슈페리어2]";
 			case ROOM_TYPE_DELUXE1 :
-				return "(디럭스1)";
+				return "[디럭스1]";
 			case ROOM_TYPE_DELUXE2 :
-				return "(디럭스2)";
+				return "[디럭스2]";
 			case ROOM_TYPE_EXECUTIVE1 :
-				return "(이그젝큐티브1)";
+				return "[이그젝큐티브1]";
 			case ROOM_TYPE_EXECUTIVE2 :
-				return "(이그젝큐티브2)";
-			case ROOM_TYPE_SUITEROOM :
-				return "(스위트)";
+				return "[이그젝큐티브2]";
+			case ROOM_TYPE_SUITE :
+				return "[스위트]";
 		}
 		return "";
 	}
@@ -198,7 +222,7 @@ public class Room {
 			case ROOM_TYPE_STANDARD1 :
 			case ROOM_TYPE_DELUXE1 :
 			case ROOM_TYPE_DELUXE2 :
-			case ROOM_TYPE_SUITEROOM :
+			case ROOM_TYPE_SUITE :
 				return false;
 		}
 		return true;
@@ -220,7 +244,7 @@ public class Room {
 				return 5;
 			case ROOM_TYPE_EXECUTIVE2 :
 				return 6;
-			case ROOM_TYPE_SUITEROOM :
+			case ROOM_TYPE_SUITE :
 				return 8;
 		}
 		return 0;
@@ -244,7 +268,31 @@ public class Room {
 				return "침대 정보 : 퀸 1개, 킹 1개";
 			case ROOM_TYPE_EXECUTIVE2 :
 				return "침대 정보 : 더블 2개, 킹 1개";
-			case ROOM_TYPE_SUITEROOM :
+			case ROOM_TYPE_SUITE :
+				return "침대 정보 : 킹 4개";
+		}
+		return null;
+	}
+
+	public static String getBedInfo(int roomType) {
+		switch (roomType) { // 룸 타입
+			case ROOM_TYPE_STANDARD1 :
+				return "침대 정보 : 싱글 1개";
+			case ROOM_TYPE_STANDARD2 :
+				return "침대 정보 : 싱글 2개";
+			case ROOM_TYPE_SUPERIOR1 :
+				return "침대 정보 : 더블 1개, 싱글 1개";
+			case ROOM_TYPE_SUPERIOR2 :
+				return "침대 정보 : 더블 2개";
+			case ROOM_TYPE_DELUXE1 :
+				return "침대 정보 : 퀸 1개";
+			case ROOM_TYPE_DELUXE2 :
+				return "침대 정보 : 킹 1개";
+			case ROOM_TYPE_EXECUTIVE1 :
+				return "침대 정보 : 퀸 1개, 킹 1개";
+			case ROOM_TYPE_EXECUTIVE2 :
+				return "침대 정보 : 더블 2개, 킹 1개";
+			case ROOM_TYPE_SUITE :
 				return "침대 정보 : 킹 4개";
 		}
 		return null;

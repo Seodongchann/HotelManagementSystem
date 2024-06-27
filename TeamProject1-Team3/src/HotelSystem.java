@@ -45,7 +45,7 @@ public class HotelSystem {
 			rooms[3][i].setRoomType(Room.ROOM_TYPE_EXECUTIVE2);
 		}
 
-		rooms[3][19].setRoomType(Room.ROOM_TYPE_SUITEROOM);
+		rooms[3][19].setRoomType(Room.ROOM_TYPE_SUITE);
 		rooms[2][3].setRoomState(Room.ROOM_STATE_CLOSED);
 		rooms[2][13].setRoomState(Room.ROOM_STATE_CLOSED);
 	}
@@ -209,6 +209,7 @@ public class HotelSystem {
 				checkOut();
 				break;
 			case 4 :
+				roomChange();
 				break;
 			case 5 :
 				roomUpgrade();
@@ -276,25 +277,22 @@ public class HotelSystem {
 	}
 
 	private void checkOut() { // 체크 아웃
-		Room room;
+		Customer customer = inputCustomer();
 
-		while (true) {
-			room = selectRoom();
-			if (room == null) { // 취소한 상황
-				System.out.println("변경을 취소하셨습니다.");
-				return;
-			}
-			if (room.getRoomState() == Room.ROOM_STATE_OCCUPIED)
-				break;
-			System.out.println("투숙중인 방이 아닙니다.");
+		if (!hasOccupiedRoom(customer)) {
+			System.out.println("투숙중인 방이 없습니다.");
+			return;
 		}
-		System.out.println("체크 아웃 하시겠습니까? [Y/N]");
-		char inputYorN = inputYN();
-		switch (inputYorN) {
+
+		Room room = selectOccupiedRoom(customer);
+
+		System.out.println("체크아웃 하시겠습니까? [Y/N]");
+		char input = inputYN();
+
+		switch (input) {
 			case 'Y' :
 				room.setCustomer(null);
 				room.setRoomState(Room.ROOM_STATE_EMPTY);
-				System.out.println("체크 아웃 되었습니다.");
 				break;
 			case 'N' :
 				System.out.println("변경을 취소하셨습니다.");
@@ -302,14 +300,86 @@ public class HotelSystem {
 		}
 	}
 
+	private void roomChange() {
+		Customer customer = inputCustomer();
+		if (!hasOccupiedRoom(customer)) {
+			System.out.println("예약된 정보가 없습니다.");
+			return;
+		}
+		Room prevRoom = selectOccupiedRoom(customer);
+		int prevRoomType = prevRoom.getRoomType();
+		if (!hasChangedRoom(prevRoomType)) {
+			System.out.println("변경 가능한 객실이 없습니다.");
+			return;
+		}
+
+		Room nextRoom = selectChangedRoom(prevRoomType);
+
+		System.out.println("변경하시겠습니까? [Y/N]");
+		char input = inputYN();
+		switch (input) {
+			case 'Y' :
+				nextRoom.setCustomer(customer);
+				nextRoom.setRoomState(Room.ROOM_STATE_OCCUPIED);
+				prevRoom.setCustomer(null);
+				prevRoom.setRoomState(Room.ROOM_STATE_EMPTY);
+				break;
+			case 'N' :
+				break;
+		}
+	}
+
+	private Room[] getChangedRooms(int roomType) {
+		List<Room> roomList = new ArrayList<>();
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[i].length; j++) {
+				Room room = rooms[i][j];
+				if (room.getRoomState() == Room.ROOM_STATE_EMPTY) {
+					if (room.getRoomType() == roomType)
+						roomList.add(room);
+				}
+			}
+		}
+		return roomList.toArray(new Room[0]);
+	}
+
+	private Room selectChangedRoom(int roomType) {
+		Room[] changedRooms = getChangedRooms(roomType);
+		System.out.println("변경할 객실을 선택하시오.");
+		for (int i = 0; i < changedRooms.length; i++) {
+			System.out.print(
+					"[" + (i + 1) + "] " + changedRooms[i].getRoomNum() + "호 ");
+			if ((i + 1) % 5 == 0)
+				System.out.println();
+			if ((i + 1) % 5 != 0 && i == changedRooms.length - 1)
+				System.out.println();
+		}
+		int input = inputIntInRange(1, changedRooms.length);
+		return changedRooms[input - 1];
+	}
+
+	// 객실상태 변경 추가 룸체인지
+	private boolean hasChangedRoom(int roomType) {
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[i].length; j++) {
+				Room room = rooms[i][j];
+				if (room.getRoomType() == roomType) {
+					if (room.getRoomState() == Room.ROOM_STATE_EMPTY)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	private void roomUpgrade() {
 		Customer customer = inputCustomer();
-		if (!hasOccupiedRoomFromUser(customer)) {
+		if (!hasOccupiedRoom(customer)) {
 			System.out.println("예약된 정보가 없습니다.");
 			return;
 		}
 
-		Room prevRoom = selectOccupiedRoomFromUser(customer);
+		Room prevRoom = selectOccupiedRoom(customer);
 		int prevRoomType = prevRoom.getRoomType();
 		if (!hasUpgradeRoom(prevRoomType)) {
 			System.out.println("업그레이드 가능한 방이 없습니다.");
@@ -347,8 +417,9 @@ public class HotelSystem {
 	}
 
 	private Room selectUpgradedRoom(int roomType) {
-		Room[] upgradedRooms = getUpgradedRoom(roomType);
-		System.out.println("예약된 객실을 선택하시오.");
+		int upgradedRoomType = selectUpgradeType(roomType);
+		Room[] upgradedRooms = getChangedRooms(upgradedRoomType);
+		System.out.println("업그레이드할 객실을 선택하시오.");
 		for (int i = 0; i < upgradedRooms.length; i++) {
 			System.out.println(
 					"[" + (i + 1) + "] " + upgradedRooms[i].getRoomNum() + "호");
@@ -356,22 +427,28 @@ public class HotelSystem {
 		int input = inputIntInRange(1, upgradedRooms.length);
 		return upgradedRooms[input - 1];
 	}
-
-	private Room[] getUpgradedRoom(int roomType) {
-		List<Room> roomList = new ArrayList<>();
-		for (int i = 0; i < rooms.length; i++) {
-			for (int j = 0; j < rooms[i].length; j++) {
-				Room room = rooms[i][j];
-				if (room.getRoomType() > roomType) {
-					if (room.getRoomState() == Room.ROOM_STATE_EMPTY)
-						roomList.add(room);
-				}
+	private int[] getUpgradeTypes(int roomType) {
+		List<Integer> typeList = new ArrayList<>();
+		for (int i = roomType + 1; i <= Room.ROOM_TYPE_SUITE; i++) {
+			if (hasChangedRoom(i)) {
+				typeList.add(i);
 			}
 		}
-		return roomList.toArray(new Room[0]);
+		return typeList.stream().mapToInt(i -> i).toArray();
 	}
 
-	private boolean hasOccupiedRoomFromUser(Customer customer) {
+	private int selectUpgradeType(int roomType) {
+		int[] roomTypes = getUpgradeTypes(roomType);
+		for (int i = 0; i < roomTypes.length; i++) {
+			System.out.println(
+					"[" + (i + 1) + "] " + Room.getGradeOfRoomInfo(roomTypes[i])
+							+ " " + Room.getBedInfo(roomTypes[i]));
+		}
+		int input = inputIntInRange(1, roomTypes.length);
+		return roomTypes[input - 1];
+	}
+
+	private boolean hasOccupiedRoom(Customer customer) {
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[i].length; j++) {
 				Room room = rooms[i][j];
@@ -384,8 +461,8 @@ public class HotelSystem {
 		return false;
 	}
 
-	private Room selectOccupiedRoomFromUser(Customer customer) {
-		Room[] occupiedRooms = getOccupiedRoomFromUser(customer);
+	private Room selectOccupiedRoom(Customer customer) {
+		Room[] occupiedRooms = getOccupiedRoom(customer);
 		System.out.println("투숙 중인 객실을 선택하시오.");
 		for (int i = 0; i < occupiedRooms.length; i++) {
 			System.out.println(
@@ -395,7 +472,7 @@ public class HotelSystem {
 		return occupiedRooms[input - 1];
 	}
 
-	private Room[] getOccupiedRoomFromUser(Customer customer) {
+	private Room[] getOccupiedRoom(Customer customer) {
 		List<Room> roomList = new ArrayList<>();
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[i].length; j++) {
