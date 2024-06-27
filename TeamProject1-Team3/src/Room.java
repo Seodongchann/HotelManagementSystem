@@ -140,6 +140,29 @@ public class Room {
         return "";
     }
 
+    public int getRoomFee() {
+    	switch(roomType) {
+    	case ROOM_TYPE_STANDARD1:
+            return 30000;
+        case ROOM_TYPE_STANDARD2:
+            return 40000;
+        case ROOM_TYPE_SUPERIOR1:
+            return 60000;
+        case ROOM_TYPE_SUPERIOR2:
+            return 70000;
+        case ROOM_TYPE_DELUXE1:
+            return 100000;
+        case ROOM_TYPE_DELUXE2:
+            return 110000;
+        case ROOM_TYPE_EXECUTIVE1:
+            return 140000;
+        case ROOM_TYPE_EXECUTIVE2:
+            return 150000;
+        case ROOM_TYPE_SUITEROOM:
+            return 2_000_000;
+    	}
+    	return -1;
+    }
     public String getGradeOfRoom() { // 객실 등급 문자열로 반환
         switch (roomType) { // 룸 타입
         case ROOM_TYPE_STANDARD1:
