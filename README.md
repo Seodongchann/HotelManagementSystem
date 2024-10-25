@@ -66,12 +66,12 @@
 
  
 <img src = "https://github.com/user-attachments/assets/60c3f14a-f174-4af0-a770-285b45d5e00c" width="700" height="400"/>
-<br>
-<br>
 
 
 
 **Usecase Diagram**
+
+
 <img src = "https://github.com/user-attachments/assets/9c95d1b2-d665-4bc8-9791-e9bc226fb470" width="700" height="400"/>
 
 
