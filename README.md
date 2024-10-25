@@ -94,7 +94,7 @@
 
 ## Run
 
-[Hotel.jar download link]](https://github.com/Seodongchann/HotelManagementSystem/blob/main/hotel.jar) 클릭 후 cmd에서 java - jar hotel.jar 입력
+[Hotel.jar download link](https://github.com/Seodongchann/HotelManagementSystem/blob/main/hotel.jar) 클릭 후 cmd에서 java - jar hotel.jar 입력
 
 
 ## Authors
