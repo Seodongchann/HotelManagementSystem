@@ -1,5 +1,4 @@
 <h1 align="center">
- <img src = "https://github.com/user-attachments/assets/5a3c3dc4-2bed-4491-b31d-d75dbb9f9e2f" width="600" height="400"/>
 
   Hotel Management System 
 </h1>
@@ -16,17 +15,19 @@
 
 ## What is? 
 
-- 가상 Lotto번호 추첨 및 확인 Windows환경 GUI 프로그램
+- 호텔 객실 예약 및 관리 콘솔 입출력 프로그램 
 - 수동, 반자동, 자동 중 원하는 방법으로 로또 번호를 입력 후, 당첨 번호와 비교, 결과확인
+
+## Learning objectives
+- Java 언어의 기본 구조와 문법, 데이터 타입, 제어문, 연산에 대한 이해
+- 객체지향 프로그래밍의 개념과 특징 이해 
 
 ## Role
 
-![image](https://github.com/user-attachments/assets/d6f7092e-eed6-4ba7-9fb4-b830a5798bf8)
+<img src = "https://github.com/user-attachments/assets/39dd2783-4ab4-4e6a-8d90-ff5b0ff2abd6"   width="400" height="300"/>
+
 
 ---
-**내가 담당한 Class** 
-
-![image](https://github.com/user-attachments/assets/3be6431d-e0fd-402e-94a0-9e174c7ced06)
 
 
 
@@ -52,8 +53,8 @@
 </div>
 
 ## Introduce Team 
-- [송승현](https://github.com/seunghyeon22)
-- [이진석](https://github.com/MNLEEJS)
+- [이학성](https://github.com/HSLee1013)
+- [이강호](https://github.com/LeeKangHo1)
 
 
 
@@ -64,20 +65,15 @@
  방향성 설정 
 
  
-<img src = "https://github.com/user-attachments/assets/53d7f759-a4a7-47a5-b2ec-95b38b782bf7"  width="700" height="400"/>
-
-
-
-## **참고 이미지**
-
-
-![KakaoTalk_20240726_110450339](https://github.com/user-attachments/assets/bbd45ca6-21f2-4853-90ae-4b6204e33f54)
+<img src = "https://github.com/user-attachments/assets/60c3f14a-f174-4af0-a770-285b45d5e00c" width="700" height="400"/>
 <br>
 <br>
-<img src = "https://github.com/user-attachments/assets/5c8b4a4e-5027-414b-8cfb-f5a913570759" width = "400" height="300"/>
-<br>
-<br>
-<img src = "https://github.com/user-attachments/assets/2e96e8a4-5871-46e6-9a9c-8c3fa320e9c0" width="300" height="300"/>
+
+
+<img src = "https://github.com/user-attachments/assets/9c95d1b2-d665-4bc8-9791-e9bc226fb470" width="700" height="400"/>
+
+
+
 
 
 
@@ -87,9 +83,12 @@
 - 내가 구현한 기능
 
 
-*   [x] LottoStart
-*   [ ] LottoSecond
-*   [ ] LottoLast
+*   [x] Customer
+*   [x] Room
+*   [ ] Cabinet
+*   [ ] InputUtil
+*   [ ] HotelSystem
+*   [ ] Main
 
     
 
